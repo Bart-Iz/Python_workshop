@@ -26,7 +26,7 @@ def map_id(df):
   
   teams = teams_data['teams'] 
   teams_map = {team['id']: team['name'] for team in teams}
-  df['id_zespołu'] = df['id_zespołu'].map(users_map)
+  df['team_id'] = df['team_id'].map(users_map)
   return df
 
 
