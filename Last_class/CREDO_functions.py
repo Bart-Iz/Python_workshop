@@ -11,7 +11,6 @@ def read_data(file_path):
   df = pd.json_normalize(detections)
   df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Warsaw')
   df = df.drop(['id','provider', 'metadata', 'source', 'visible', 'time_received', 'altitude', 'frame_content', 'x', 'y', 'accuracy'], axis=1)
-  df = map_id(df)
   return df
 
 def map_id(df):
