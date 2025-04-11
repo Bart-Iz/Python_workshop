@@ -32,26 +32,26 @@ def map_id(df):
 
 def filter_by_date(df, start_date, end_date=None):
     if end_date:
-        filtered_df = df[(df['time'].dt.date >= pd.Timestamp(start_date).date()) &
-                         (df['time'].dt.date <= pd.Timestamp(end_date).date())]
+        filtered_df = df[(df['timestamp'].dt.date >= pd.Timestamp(start_date).date()) &
+                         (df['timestamp'].dt.date <= pd.Timestamp(end_date).date())]
     else:
-        filtered_df = df[df['time'].dt.date == pd.Timestamp(start_date).date()]
+        filtered_df = df[df['timestamp'].dt.date == pd.Timestamp(start_date).date()]
     
     return filtered_df
 
 def weekdays(df, weekday):
-    df = df[df['time'].dt.day.isin(weekday)].copy()
-    df['day'] = df['time'].dt.weekday 
+    df = df[df['timestamp'].dt.day.isin(weekday)].copy()
+    df['day'] = df['timestamp'].dt.weekday 
     return df
 
 def months(df, month):
-    df = df[df['time'].dt.month.isin(month)].copy()
-    df['month'] = df['month'].dt.month
+    df = df[df['timestamp'].dt.month.isin(month)].copy()
+    df['month'] = df['timestamp'].dt.month
     return df
 
 def years(df, year):
-    df = df[df['time'].dt.year.isin(year)].copy()
-    df['year'] = df['time'].dt.year  
+    df = df[df['timestamp'].dt.year.isin(year)].copy()
+    df['year'] = df['timestamp'].dt.year  
     return df
 
 def users(df, user_names):
@@ -66,7 +66,7 @@ def show_on_map(df):
     points = df.groupby(['latitude', 'longitude']).size().reset_index(name='counts')
     points['sizes'] = points['counts']/points['counts'].max() + 0.05
     points= points.drop(index=1)
-    fig = px.scatter_mapbox(points, lon=points['latitude'], lat=points["longitude"], color=points["counts"], size=points["sizes"], zoom=3, )
+    fig = px.scatter_mapbox(points, lon=points['longitude'], lat=points["latitude"], color=points["counts"], size=points["sizes"], zoom=3, )
     fig.update_layout(mapbox_style='open-street-map')
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.show()
